@@ -1,5 +1,6 @@
 package droidcon_phyweb.makerville.com.droidcon_phyweb;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,13 +17,77 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.estimote.sdk.BeaconManager;
+import com.estimote.sdk.MacAddress;
+import com.estimote.sdk.eddystone.Eddystone;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static final int REQUEST_ENABLE_BT = 1;
+    private BeaconManager beaconManager;
+    private String scanid;
+    private String scanId;
+
+    Set<MacAddress> beaconList;
+
+    public void startScan() {
+        Log.d("ABC","Entered startScan()");
+        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                scanId = beaconManager.startEddystoneScanning();
+            }
+        });
+    }
+    public void setListener(){
+
+        Log.d("ABC","Entered setListnener()");
+        beaconManager.setEddystoneListener(new BeaconManager.EddystoneListener() {
+            @Override
+            public void onEddystonesFound(List<Eddystone> list) {
+
+                if (list.size() > 0) {
+                    if(beaconList!=null) {
+                        for (int i = 0; i < list.size(); i++) {
+                            //Log.d("ABC", list.get(i).toString());
+                            beaconList.add(list.get(i).macAddress);
+                        }
+                    }
+                }
+            }
+        });
+    }
+    public void stopScanBeacons(){
+        Log.d("ABC","stopScanning()");
+        beaconManager.stopEddystoneScanning(scanId);
+    }
+
+    public void getBeaconList(){
+        Log.d("ABC","eneterd getbeaconlist");
+        if(beaconList!=null) {
+            for (Iterator<MacAddress> it = beaconList.iterator(); it.hasNext(); it.hasNext()) {
+                Log.d("ABC", it.next().toString());
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if(!bluetoothAdapter.isEnabled()){
+            Log.d("ABC","Bluetooth is off");
+            Intent enableBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBT,REQUEST_ENABLE_BT);
+        }
+        beaconManager = new BeaconManager(this);
+        setListener();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -85,13 +150,21 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        startScan();
         Log.d("ABC","onstart");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        beaconManager.disconnect();
         Log.d("ABC","ondestroy");
+    }
+
+    @Override
+    protected void onStop() {
+        stopScanBeacons();
+        super.onStop();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -103,6 +176,7 @@ public class MainActivity extends AppCompatActivity
         View view = (View)findViewById(R.id.content_main);
         if (id == R.id.nav_fea1) {
             Snackbar.make(view, "Feature 1", Snackbar.LENGTH_LONG).show();
+            getBeaconList();
         } else if (id == R.id.nav_fea2) {
             Snackbar.make(view, "Feature 2", Snackbar.LENGTH_LONG).show();
         } else if (id == R.id.nav_fea3) {
