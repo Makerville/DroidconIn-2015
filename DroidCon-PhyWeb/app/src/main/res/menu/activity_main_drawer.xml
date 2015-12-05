@@ -3,33 +3,53 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_fea1"
+            android:icon="@drawable/ic_perm_identity_black"
+            android:title="Feature 1" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_fea2"
+            android:icon="@drawable/ic_perm_identity_black"
+            android:title="Feature 2" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_fea3"
+            android:icon="@drawable/ic_perm_identity_black"
+            android:title="Feature 3" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_fea4"
+            android:icon="@drawable/ic_perm_identity_black"
+            android:title="Feature 4" />
+        <item
+            android:id="@+id/nav_fea5"
+            android:icon="@drawable/ic_perm_identity_black"
+            android:title="Feature 5" />
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_contact"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="Contact" />
+        </menu>
+    </item>
+    <item android:title="Resources">
+        <menu>
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_git"
+                android:icon="@drawable/ic_perm_identity_black"
+                android:title="GitHub"/>
+        </menu>
+    </item>
+    <item android:title="About">
+        <menu>
+            <item
+                android:id="@+id/nav_devs"
+                android:icon="@drawable/ic_perm_identity_black"
+                android:title="Developers"/>
+            <item
+                android:id="@+id/nav_phyweb"
+                android:icon="@drawable/ic_perm_identity_black"
+                android:title="Physical Web"/>
         </menu>
     </item>
 

@@ -1,17 +1,20 @@
 package droidcon_phyweb.makerville.com.droidcon_phyweb;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -70,8 +73,25 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("ABC","onresume");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("ABC","onstart");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("ABC","ondestroy");
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -80,18 +100,39 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        View view = (View)findViewById(R.id.content_main);
+        if (id == R.id.nav_fea1) {
+            Snackbar.make(view, "Feature 1", Snackbar.LENGTH_LONG).show();
+        } else if (id == R.id.nav_fea2) {
+            Snackbar.make(view, "Feature 2", Snackbar.LENGTH_LONG).show();
+        } else if (id == R.id.nav_fea3) {
+            Snackbar.make(view, "Feature 3", Snackbar.LENGTH_LONG).show();
+        } else if (id == R.id.nav_fea4) {
+            Snackbar.make(view, "Feature 4", Snackbar.LENGTH_LONG).show();
+        } else if (id == R.id.nav_fea5) {
+            Snackbar.make(view, "Feature 5", Snackbar.LENGTH_LONG).show();
+        } else if (id == R.id.nav_contact) {
+            Snackbar.make(view, "Contact", Snackbar.LENGTH_LONG).show();
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("message/rfc822");
+            i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"contact@makerville.io"});
+            i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
+            i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+            try {
+                startActivity(Intent.createChooser(i, "Send mail..."));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Snackbar.make(view, "no email client installed", Snackbar.LENGTH_LONG).show();
+            }
+        } else if (id == R.id.nav_devs) {
+            Snackbar.make(view, "Developers", Snackbar.LENGTH_LONG).show();
+        } else if (id == R.id.nav_phyweb) {
+            Snackbar.make(view, "Physical Web", Snackbar.LENGTH_LONG).show();
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://google.github.io/physical-web/"));
+            startActivity(browserIntent);
+        } else if (id == R.id.nav_git) {
+            Snackbar.make(view, "Github", Snackbar.LENGTH_LONG).show();
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/makerville/DroidconIn-2015"));
+            startActivity(browserIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
