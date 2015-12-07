@@ -1,12 +1,13 @@
 package droidcon_phyweb.makerville.com.droidcon_phyweb;
 
+
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,89 +26,103 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-    private static final int REQUEST_ENABLE_BT = 1;
-    private BeaconManager beaconManager;
-    private String scanid;
-    private String scanId;
+import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.feature_1;
+import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.feature_2;
 
-    Set<MacAddress> beaconList;
 
-    public void startScan() {
-        Log.d("ABC","Entered startScan()");
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-            @Override
-            public void onServiceReady() {
-                scanId = beaconManager.startEddystoneScanning();
-            }
-        });
-    }
-    public void setListener(){
+public class MainActivity extends AppCompatActivity {
+    final int REQUEST_ENABLE_BT = 1;
 
-        Log.d("ABC","Entered setListnener()");
-        beaconManager.setEddystoneListener(new BeaconManager.EddystoneListener() {
-            @Override
-            public void onEddystonesFound(List<Eddystone> list) {
-
-                if (list.size() > 0) {
-                    if(beaconList!=null) {
-                        for (int i = 0; i < list.size(); i++) {
-                            //Log.d("ABC", list.get(i).toString());
-                            beaconList.add(list.get(i).macAddress);
-                        }
-                    }
-                }
-            }
-        });
-    }
-    public void stopScanBeacons(){
-        Log.d("ABC","stopScanning()");
-        beaconManager.stopEddystoneScanning(scanId);
-    }
-
-    public void getBeaconList(){
-        Log.d("ABC","eneterd getbeaconlist");
-        if(beaconList!=null) {
-            for (Iterator<MacAddress> it = beaconList.iterator(); it.hasNext(); it.hasNext()) {
-                Log.d("ABC", it.next().toString());
-            }
-        }
-    }
+    private int mCurrentSelectedPosition;
+    DrawerLayout drawer;
+    NavigationView navigationView;
+    //----------------------------------------------------
+    // FragmentManager to handle the fragments
+    FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("ABC","create kela ");
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(!bluetoothAdapter.isEnabled()){
             Log.d("ABC","Bluetooth is off");
             Intent enableBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBT,REQUEST_ENABLE_BT);
         }
-        beaconManager = new BeaconManager(this);
-        setListener();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                item.setChecked(true);
+                View view = (View)findViewById(R.id.content_main);
+                switch (item.getItemId()) {
+                    case R.id.nav_fea1:
+                        Snackbar.make(view, "Feature 1", Snackbar.LENGTH_LONG).show();
+                        feature_1 f1 = new feature_1();
+                        mCurrentSelectedPosition = 0;
+                        getSupportActionBar().setTitle("Home");
+                        drawer.closeDrawer(navigationView);
+                        fragmentManager.beginTransaction().replace(R.id.content_main, f1).commit();
+                        return true;
+                    case R.id.nav_fea2:
+                        Snackbar.make(view, "Feature 2", Snackbar.LENGTH_LONG).show();
+                        feature_2 f2 = new feature_2();
+                        mCurrentSelectedPosition = 1;
+                        getSupportActionBar().setTitle("First Time UX");
+                        drawer.closeDrawer(navigationView);
+                        fragmentManager.beginTransaction().replace(R.id.content_main, f2).commit();
+                        return true;
+                    case R.id.nav_contact:
+                        Snackbar.make(view, "Contact", Snackbar.LENGTH_LONG).show();
+                        Intent i = new Intent(Intent.ACTION_SEND);
+                        i.setType("message/rfc822");
+                        i.putExtra(Intent.EXTRA_EMAIL, new String[]{"contact@makerville.io"});
+                        i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
+                        i.putExtra(Intent.EXTRA_TEXT, "body of email");
+                        drawer.closeDrawer(navigationView);
+                        try {
+                            startActivity(Intent.createChooser(i, "Send mail..."));
+                        } catch (android.content.ActivityNotFoundException ex) {
+                            Snackbar.make(view, "no email client installed", Snackbar.LENGTH_LONG).show();
+                        }
+                        return true;
+                    case R.id.nav_devs:
+                        drawer.closeDrawer(navigationView);
+                        Snackbar.make(view, "Developers", Snackbar.LENGTH_LONG).show();
+                        return true;
+                    case R.id.nav_phyweb:
+                        drawer.closeDrawer(navigationView);
+                        Snackbar.make(view, "Physical Web", Snackbar.LENGTH_LONG).show();
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://google.github.io/physical-web/"));
+                        startActivity(browserIntent);
+                        return true;
+                    case R.id.nav_git:
+                        drawer.closeDrawer(navigationView);
+                        Snackbar.make(view, "Github", Snackbar.LENGTH_LONG).show();
+                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/makerville/DroidconIn-2015"));
+                        startActivity(browserIntent);
+                }    return true;
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d("ABC","paused");
+        super.onPause();
     }
 
     @Override
@@ -116,6 +131,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            Log.d("ABC","Baher alo ");
             super.onBackPressed();
         }
     }
@@ -133,84 +149,11 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("ABC","onresume");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        startScan();
-        Log.d("ABC","onstart");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        beaconManager.disconnect();
-        Log.d("ABC","ondestroy");
-    }
-
-    @Override
-    protected void onStop() {
-        stopScanBeacons();
-        super.onStop();
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        View view = (View)findViewById(R.id.content_main);
-        if (id == R.id.nav_fea1) {
-            Snackbar.make(view, "Feature 1", Snackbar.LENGTH_LONG).show();
-            getBeaconList();
-        } else if (id == R.id.nav_fea2) {
-            Snackbar.make(view, "Feature 2", Snackbar.LENGTH_LONG).show();
-        } else if (id == R.id.nav_fea3) {
-            Snackbar.make(view, "Feature 3", Snackbar.LENGTH_LONG).show();
-        } else if (id == R.id.nav_fea4) {
-            Snackbar.make(view, "Feature 4", Snackbar.LENGTH_LONG).show();
-        } else if (id == R.id.nav_fea5) {
-            Snackbar.make(view, "Feature 5", Snackbar.LENGTH_LONG).show();
-        } else if (id == R.id.nav_contact) {
-            Snackbar.make(view, "Contact", Snackbar.LENGTH_LONG).show();
-            Intent i = new Intent(Intent.ACTION_SEND);
-            i.setType("message/rfc822");
-            i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"contact@makerville.io"});
-            i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
-            i.putExtra(Intent.EXTRA_TEXT   , "body of email");
-            try {
-                startActivity(Intent.createChooser(i, "Send mail..."));
-            } catch (android.content.ActivityNotFoundException ex) {
-                Snackbar.make(view, "no email client installed", Snackbar.LENGTH_LONG).show();
-            }
-        } else if (id == R.id.nav_devs) {
-            Snackbar.make(view, "Developers", Snackbar.LENGTH_LONG).show();
-        } else if (id == R.id.nav_phyweb) {
-            Snackbar.make(view, "Physical Web", Snackbar.LENGTH_LONG).show();
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://google.github.io/physical-web/"));
-            startActivity(browserIntent);
-        } else if (id == R.id.nav_git) {
-            Snackbar.make(view, "Github", Snackbar.LENGTH_LONG).show();
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/makerville/DroidconIn-2015"));
-            startActivity(browserIntent);
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 }
+

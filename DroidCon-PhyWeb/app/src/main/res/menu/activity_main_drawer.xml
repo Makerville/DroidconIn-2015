@@ -5,23 +5,11 @@
         <item
             android:id="@+id/nav_fea1"
             android:icon="@drawable/ic_perm_identity_black"
-            android:title="Feature 1" />
+            android:title="Home" />
         <item
             android:id="@+id/nav_fea2"
             android:icon="@drawable/ic_perm_identity_black"
-            android:title="Feature 2" />
-        <item
-            android:id="@+id/nav_fea3"
-            android:icon="@drawable/ic_perm_identity_black"
-            android:title="Feature 3" />
-        <item
-            android:id="@+id/nav_fea4"
-            android:icon="@drawable/ic_perm_identity_black"
-            android:title="Feature 4" />
-        <item
-            android:id="@+id/nav_fea5"
-            android:icon="@drawable/ic_perm_identity_black"
-            android:title="Feature 5" />
+            android:title="First Time UX" />
     </group>
 
     <item android:title="Communicate">
