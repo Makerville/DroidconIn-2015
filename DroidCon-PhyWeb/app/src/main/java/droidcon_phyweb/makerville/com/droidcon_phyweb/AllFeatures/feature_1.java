@@ -1,6 +1,7 @@
 package droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -25,7 +26,7 @@ import droidcon_phyweb.makerville.com.droidcon_phyweb.R;
 public class feature_1 extends Fragment {
 
     ImageView imageView;
-    Map<String,String> map = new HashMap<String, String>();
+   public  Map<String,String> map = new HashMap<String, String>();
     public feature_1() {
         // Required empty public constructor
     }
@@ -43,6 +44,7 @@ public class feature_1 extends Fragment {
         map.put("0ff0","This is Arrival!");
         map.put("00ff","This is seminar hall!");
         map.put("ffff0","This is entry to the auditorium!");
+
         if(imageView != null)
         {
             Log.d("ABC","If madhe");

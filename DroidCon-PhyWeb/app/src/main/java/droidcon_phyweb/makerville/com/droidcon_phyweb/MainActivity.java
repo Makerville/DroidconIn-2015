@@ -21,11 +21,13 @@ import android.view.View;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.MacAddress;
 import com.estimote.sdk.eddystone.Eddystone;
+import com.estimote.sdk.service.internal.ThreadedHandler;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.ScanningService;
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.feature_1;
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.feature_2;
 
@@ -46,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Log.d("ABC","create kela ");
+        Intent intent = new Intent(MainActivity.this, ScanningService.class);
+        startService(intent);
+
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(!bluetoothAdapter.isEnabled()){
             Log.d("ABC","Bluetooth is off");
