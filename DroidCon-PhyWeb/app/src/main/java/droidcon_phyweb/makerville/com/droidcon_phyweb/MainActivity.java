@@ -1,10 +1,7 @@
 package droidcon_phyweb.makerville.com.droidcon_phyweb;
 
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,7 +9,6 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,30 +19,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.estimote.sdk.BeaconManager;
-import com.estimote.sdk.MacAddress;
-import com.estimote.sdk.eddystone.Eddystone;
-import com.estimote.sdk.service.internal.ThreadedHandler;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.ScanningService;
-
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.feature_1;
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.feature_2;
 
 
 public class MainActivity extends AppCompatActivity {
     final int REQUEST_ENABLE_BT = 1;
-    final String NOTIFICATION_GROUP_KEY = "DroidCon-PhyWeb";
     boolean MULTIPLE_NOTIFICATION = true;
     private int mCurrentSelectedPosition;
     DrawerLayout drawer;
     NavigationView navigationView;
-    public NotificationManager mNotificationManager;
     public NotificationCompat.Builder mbuilder;
+
     //----------------------------------------------------
     // FragmentManager to handle the fragments
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -57,24 +42,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Log.d("ABC","create kela ");
-
         Intent intent = new Intent(MainActivity.this, ScanningService.class);
         startService(intent);
+//        initializeBuilder();
 
-        mbuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("DroidCon-PhyWeb")
-                .setContentText("Nearby beacon found!");
-        mbuilder.setAutoCancel(true);
-        mbuilder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-        Intent mainItent = new Intent(this,MainActivity.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MainActivity.class);
-        stackBuilder.addNextIntent(mainItent);
-        PendingIntent resultPendingIntent = PendingIntent.getActivity(this,0,mainItent,PendingIntent.FLAG_UPDATE_CURRENT);
-                stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
-        mbuilder.setContentIntent(resultPendingIntent);
-        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(!bluetoothAdapter.isEnabled()){
@@ -186,16 +157,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void pushNotification(int id,String title,String text[]){
-        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-        for(int i=0;i<text.length;i++){
-            inboxStyle.addLine(text[i]);
-        }
-        mbuilder.setGroup(NOTIFICATION_GROUP_KEY);
-        mbuilder.setGroupSummary(true);
-        mbuilder.setStyle(inboxStyle);
-        mbuilder.setContentTitle(title);
-        mNotificationManager.notify(id,mbuilder.build());
-    }
+
 }
 
