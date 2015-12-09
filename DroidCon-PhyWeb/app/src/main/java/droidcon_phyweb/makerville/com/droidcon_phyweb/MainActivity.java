@@ -23,30 +23,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-<<<<<<< HEAD
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.Developer;
-=======
-import com.estimote.sdk.BeaconManager;
-import com.estimote.sdk.MacAddress;
-import com.estimote.sdk.eddystone.Eddystone;
-import com.estimote.sdk.service.internal.ThreadedHandler;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.ScanningService;
-
->>>>>>> 75f1ec4a0dd8d34d4f4e650dc68417cf3bb8ec81
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.feature_1;
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.feature_2;
 
 
 public class MainActivity extends AppCompatActivity {
     final int REQUEST_ENABLE_BT = 1;
-<<<<<<< HEAD
 
-=======
+
+
     final String NOTIFICATION_GROUP_KEY = "DroidCon-PhyWeb";
     boolean MULTIPLE_NOTIFICATION = true;
     private int mCurrentSelectedPosition;
@@ -54,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navigationView;
     public NotificationManager mNotificationManager;
     public NotificationCompat.Builder mbuilder;
->>>>>>> 75f1ec4a0dd8d34d4f4e650dc68417cf3bb8ec81
+
     //----------------------------------------------------
     // FragmentManager to handle the fragments
     FragmentManager fragmentManager = getSupportFragmentManager();
