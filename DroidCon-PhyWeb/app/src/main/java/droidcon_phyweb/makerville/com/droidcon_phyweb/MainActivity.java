@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.Developer;
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.ScanningService;
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.feature_1;
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.feature_2;
@@ -73,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_fea1:
                         Snackbar.make(view, "Feature 1", Snackbar.LENGTH_LONG).show();
                         feature_1 f1 = new feature_1();
-                        mCurrentSelectedPosition = 0;
                         getSupportActionBar().setTitle("Home");
                         drawer.closeDrawer(navigationView);
                         fragmentManager.beginTransaction().replace(R.id.content_main, f1).commit();
@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_fea2:
                         Snackbar.make(view, "Feature 2", Snackbar.LENGTH_LONG).show();
                         feature_2 f2 = new feature_2();
-                        mCurrentSelectedPosition = 1;
                         getSupportActionBar().setTitle("First Time UX");
                         drawer.closeDrawer(navigationView);
                         fragmentManager.beginTransaction().replace(R.id.content_main, f2).commit();
@@ -103,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_devs:
                         drawer.closeDrawer(navigationView);
                         Snackbar.make(view, "Developers", Snackbar.LENGTH_LONG).show();
+                        Developer devs = new Developer();
+                        getSupportActionBar().setTitle("First Time UX");
+                        drawer.closeDrawer(navigationView);
+                        fragmentManager.beginTransaction().replace(R.id.content_main, devs).commit();
                         return true;
                     case R.id.nav_phyweb:
                         drawer.closeDrawer(navigationView);
