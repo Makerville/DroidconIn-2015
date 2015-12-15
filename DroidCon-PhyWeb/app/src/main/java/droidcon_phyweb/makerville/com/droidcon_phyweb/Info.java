@@ -3,11 +3,11 @@ package droidcon_phyweb.makerville.com.droidcon_phyweb;
 /**
  * Created by Archbloom on 12/8/2015.
  */
-public class Dev_info {
+public class Info {
     private String name;
     private String link;
     private int img;
-    public Dev_info(){
+    public Info(){
 
     }
 

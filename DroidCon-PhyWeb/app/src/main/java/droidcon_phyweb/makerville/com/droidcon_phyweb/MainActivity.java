@@ -20,9 +20,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.Developer;
+import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.PhysicalWeb;
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.ScanningService;
 import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.feature_1;
-import droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.feature_2;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -43,10 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Log.d("ABC","create kela ");
-        Intent intent = new Intent(MainActivity.this, ScanningService.class);
-        startService(intent);
 //        initializeBuilder();
-
 
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(!bluetoothAdapter.isEnabled()){
@@ -54,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
             Intent enableBT = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBT,REQUEST_ENABLE_BT);
         }
+        Intent intent = new Intent(MainActivity.this, ScanningService.class);
+        startService(intent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -64,29 +63,22 @@ public class MainActivity extends AppCompatActivity {
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        getSupportActionBar().setTitle("Home");
+        fragmentManager.beginTransaction().replace(R.id.content_main, new feature_1()).commit();
+
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-                item.setChecked(true);
                 View view = (View)findViewById(R.id.content_main);
                 switch (item.getItemId()) {
                     case R.id.nav_fea1:
-                        Snackbar.make(view, "Feature 1", Snackbar.LENGTH_LONG).show();
                         feature_1 f1 = new feature_1();
                         getSupportActionBar().setTitle("Home");
                         drawer.closeDrawer(navigationView);
                         fragmentManager.beginTransaction().replace(R.id.content_main, f1).commit();
                         return true;
-                    case R.id.nav_fea2:
-                        Snackbar.make(view, "Feature 2", Snackbar.LENGTH_LONG).show();
-                        feature_2 f2 = new feature_2();
-                        getSupportActionBar().setTitle("First Time UX");
-                        drawer.closeDrawer(navigationView);
-                        fragmentManager.beginTransaction().replace(R.id.content_main, f2).commit();
-                        return true;
                     case R.id.nav_contact:
-                        Snackbar.make(view, "Contact", Snackbar.LENGTH_LONG).show();
                         Intent i = new Intent(Intent.ACTION_SEND);
                         i.setType("message/rfc822");
                         i.putExtra(Intent.EXTRA_EMAIL, new String[]{"contact@makerville.io"});
@@ -101,23 +93,25 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.nav_devs:
                         drawer.closeDrawer(navigationView);
-                        Snackbar.make(view, "Developers", Snackbar.LENGTH_LONG).show();
                         Developer devs = new Developer();
-                        getSupportActionBar().setTitle("First Time UX");
+                        getSupportActionBar().setTitle("Developers");
                         drawer.closeDrawer(navigationView);
                         fragmentManager.beginTransaction().replace(R.id.content_main, devs).commit();
                         return true;
                     case R.id.nav_phyweb:
                         drawer.closeDrawer(navigationView);
-                        Snackbar.make(view, "Physical Web", Snackbar.LENGTH_LONG).show();
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://google.github.io/physical-web/"));
-                        startActivity(browserIntent);
+                        PhysicalWeb physicalWeb = new PhysicalWeb();
+                        getSupportActionBar().setTitle("Physical Web");
+                        drawer.closeDrawer(navigationView);
+                        fragmentManager.beginTransaction().replace(R.id.content_main, physicalWeb).commit();
                         return true;
                     case R.id.nav_git:
                         drawer.closeDrawer(navigationView);
-                        Snackbar.make(view, "Github", Snackbar.LENGTH_LONG).show();
-                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/makerville/DroidconIn-2015"));
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/makerville/DroidconIn-2015"));
                         startActivity(browserIntent);
+                        return true;
+                    case R.id.nav_version:
+                        drawer.closeDrawer(navigationView);
                 }    return true;
             }
         });
@@ -125,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        Log.d("ABC","paused");
         super.onPause();
     }
 
@@ -135,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            Log.d("ABC","Baher alo ");
             super.onBackPressed();
         }
     }
@@ -146,20 +138,5 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
 }
 

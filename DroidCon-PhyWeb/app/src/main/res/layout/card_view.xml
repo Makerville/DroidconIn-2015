@@ -31,7 +31,10 @@
                 android:id="@+id/person_name"
                 android:layout_toRightOf="@+id/person_photo"
                 android:layout_alignParentTop="true"
-                android:textSize="30sp"
+                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#696969"
+                android:clickable="false"
                 />
 
             <TextView
@@ -40,6 +43,10 @@
                 android:id="@+id/person_link"
                 android:layout_toRightOf="@+id/person_photo"
                 android:layout_below="@+id/person_name"
+                android:autoLink="web"
+                android:linksClickable="true"
+                android:textColorLink="#0000FF"
+                android:clickable="true"
                 />
 
         </RelativeLayout>

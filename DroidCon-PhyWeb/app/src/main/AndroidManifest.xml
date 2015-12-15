@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="droidcon_phyweb.makerville.com.droidcon_phyweb">
 
-    <!--permissions section-->
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- permissions section -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <!-- Required for BLE scanning on Android 6.0 and above. -->
-    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <!--here -->
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+    <!-- here -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,13 +23,18 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
-            android:name="droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures.ScanningService"
-            android:enabled="true"/>
+            android:name=".AllFeatures.ScanningService"
+            android:enabled="true" />
+
+        <activity
+            android:name=".NotificationHandler"
+            android:label="@string/title_activity_notification_handler"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

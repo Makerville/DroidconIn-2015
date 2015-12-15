@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import droidcon_phyweb.makerville.com.droidcon_phyweb.R;
 public class feature_1 extends Fragment {
 
     ImageView imageView;
+    WebView webView;
    public  Map<String,String> map = new HashMap<String, String>();
     public feature_1() {
         // Required empty public constructor
@@ -37,6 +39,9 @@ public class feature_1 extends Fragment {
         // Inflate the layout for this fragment
         Log.d("ABC","Inside fragment");
         imageView = (ImageView)view.findViewById(R.id.image);
+        webView = (WebView)view.findViewById(R.id.webView);
+
+        webView.loadUrl("http://s28.postimg.org/ibf3vya2l/yoda200.gif");
 
         map.put("ff00","This is conference room!");
         map.put("0ffff","This is Auditorium!");
@@ -82,10 +87,5 @@ public class feature_1 extends Fragment {
         }
         return view;
     }
-    public boolean closeMatch (int color1, int color2, int tolerance) {
-        if ((int) Math.abs (Color.red (color1) - Color.red (color2)) > tolerance ) return false;
-        if ((int) Math.abs (Color.green (color1) - Color.green (color2)) > tolerance ) return false;
-        if ((int) Math.abs (Color.blue (color1) - Color.blue (color2)) > tolerance ) return false;
-        return true;
-    } // end match
+     // end match
 }
