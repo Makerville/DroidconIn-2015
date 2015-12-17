@@ -1,7 +1,6 @@
 package droidcon_phyweb.makerville.com.droidcon_phyweb.AllFeatures;
 
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -43,11 +42,8 @@ public class feature_1 extends Fragment {
 
         webView.loadUrl("http://s28.postimg.org/ibf3vya2l/yoda200.gif");
 
-        map.put("ff00","This is conference room!");
-        map.put("0ffff","This is Auditorium!");
-        map.put("0ff0","This is Arrival!");
-        map.put("00ff","This is seminar hall!");
-        map.put("ffff0","This is entry to the auditorium!");
+        map.put("ff00","This is Arrival!");
+        map.put("00ff","This is entry to the auditorium!");
 
         if(imageView != null)
         {

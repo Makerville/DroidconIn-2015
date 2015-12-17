@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final Intent intent1 = new Intent(this,NotificationHandler.class);
+
         Log.d("ABC","create kela ");
 //        initializeBuilder();
 
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
                         getSupportActionBar().setTitle("Developers");
                         drawer.closeDrawer(navigationView);
                         fragmentManager.beginTransaction().replace(R.id.content_main, devs).commit();
+//                        startActivity(intent1);
                         return true;
                     case R.id.nav_phyweb:
                         drawer.closeDrawer(navigationView);
